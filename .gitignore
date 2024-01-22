@@ -1,0 +1,25 @@
+# Environment
+.env
+.env.testing
+.env.backup
+.env.production
+.env.development
+
+# IDE
+/.fleet
+/.idea
+/.vscode
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# etc
+.DS_Store
+.DS_Store?
+.Trashes
+ehthumbs.db
+Thumbs.db
+sysinfo.txt
