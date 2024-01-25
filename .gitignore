@@ -1,9 +1,15 @@
+# svelte
+node_modules
+/build
+/.svelte-kit
+/package
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
 # Environment
 .env
-.env.testing
-.env.backup
-.env.production
-.env.development
+.env.*
+!.env.example
 
 # IDE
 /.fleet
