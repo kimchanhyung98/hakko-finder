@@ -127,3 +127,11 @@
         "liveId": 42...,
     }
     ```
+
+
+## Error (403 Forbidden)
+CHZZK API fetch, 403 Forbidden  
+(브라우저에서 직접 접속하거나, Postman, wget, curl 등으로 접속 시 정상)
+
+### Countermeasures
+API request만 python(lambda)로 분리?
