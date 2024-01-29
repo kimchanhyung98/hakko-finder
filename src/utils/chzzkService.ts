@@ -1,7 +1,7 @@
 import type { ChzzkResponse, NextPage } from '../types/chzzk';
 
 const originUrl =
-    'https://api.chzzk.naver.com/service/v1/lives?sortType=LATEST';
+    '/api/service/v1/lives?sortType=LATEST';
 
 export async function fetchChzzkData(
     nextPage?: NextPage
