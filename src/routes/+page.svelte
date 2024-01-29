@@ -1,20 +1,19 @@
 <script lang="ts">
-	// import { onMount } from 'svelte';
-	import { fetchChzzkData } from '../utils/chzzkService';
-	import type { ChzzkResponse } from '../types/chzzk';
+    // import { onMount } from 'svelte';
+    import { fetchChzzkData } from '../utils/chzzkService';
+    import type { MinorStream, NextPage } from '../types/chzzk';
 
-	// Fetch data when the module is loaded
-	const fetchData = async () => {
-		try {
-			const data: ChzzkResponse | null = await fetchChzzkData();
-			console.log('Chzzk API Response:', data);
-		} catch (error) {
-			console.error('Error fetching data:', error);
-		}
-	};
+    // Fetch data when the module is loaded
+    const fetchData = async () => {
+        try {
+            const data: { stream: MinorStream[]; page: NextPage } | null = await fetchChzzkData();
+            console.log('Chzzk API Response:', data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
 
-	// Call the fetchData function when the module is loaded
-	fetchData();
+    fetchData();
 </script>
 
 <h1>Welcome to SvelteKit</h1>

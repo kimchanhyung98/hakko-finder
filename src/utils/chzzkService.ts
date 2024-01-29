@@ -1,21 +1,34 @@
-import type { ChzzkResponse, NextPage } from '../types/chzzk';
+import type { Chzzk, MinorStream, NextPage } from '../types/chzzk';
 
-const originUrl =
-    '/api/service/v1/lives?sortType=LATEST';
+const originUrl = '/api/service/v1/lives?sortType=LATEST';
 
 export async function fetchChzzkData(
     nextPage?: NextPage
-): Promise<ChzzkResponse | null> {
+): Promise<{ stream: MinorStream[]; page: NextPage } | null> {
     try {
         let apiUrl = originUrl;
         if (nextPage) {
             apiUrl += `&concurrentUserCount=${nextPage.concurrentUserCount}&liveId=${nextPage.liveId}`;
         }
-
         const response = await fetch(apiUrl);
-        return await response.json();
+        const responseData: Chzzk = await response.json();
+
+        const MinorStreamData: MinorStream[] = responseData.content.data
+            .map((data) => ({
+                id: data.channel.channelId,
+                name: data.channel.channelName,
+                title: data.liveTitle,
+                viewers: data.concurrentUserCount,
+                adult: data.adult
+            }))
+            .filter((data) => data.viewers <= 5 && !data.adult);
+
+        return {
+            stream: MinorStreamData,
+            page: responseData.content.page.next
+        };
     } catch (error) {
-        console.error('API Error : ', error);
+        console.error('Error fetching stream data: ', error);
         return null;
     }
 }

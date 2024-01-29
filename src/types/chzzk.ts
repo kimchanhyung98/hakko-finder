@@ -1,4 +1,6 @@
-interface ChzzkResponse {
+export type { Chzzk, Stream, NextPage, MinorStream };
+
+interface Chzzk {
     code: number;
     message: null | string;
     content: {
@@ -6,11 +8,11 @@ interface ChzzkResponse {
         page: {
             next: NextPage;
         };
-        data: StreamData[];
+        data: Stream[];
     };
 }
 
-interface StreamData {
+interface Stream {
     liveId: number;
     liveTitle: string;
     liveImageUrl: string | null;
@@ -22,18 +24,23 @@ interface StreamData {
     categoryType: string;
     liveCategory: string;
     liveCategoryValue: string;
-    channel: Channel;
+    channel: {
+        channelId: string;
+        channelName: string;
+        channelImageUrl: string;
+        verifiedMark: boolean;
+    };
 }
 
-interface Channel {
-    channelId: string;
-    channelName: string;
-    channelImageUrl: string;
-    verifiedMark: boolean;
-}
 interface NextPage {
     concurrentUserCount: number;
     liveId: number;
 }
 
-export type { ChzzkResponse, Channel, StreamData, NextPage };
+interface MinorStream {
+    title: string;
+    viewers: number;
+    adult: boolean;
+    id: string;
+    name: string;
+}
