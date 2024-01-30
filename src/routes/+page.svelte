@@ -1,19 +1,34 @@
 <script lang="ts">
-    // import { onMount } from 'svelte';
-    import { fetchChzzkData } from '../utils/chzzkService';
+    import { onMount } from 'svelte';
+    import { fetchChzzk } from '../utils/stream';
+    import { checkNeedUpdate } from '../utils/storage';
     import type { MinorStream, NextPage } from '../types/chzzk';
 
-    // Fetch data when the module is loaded
-    const fetchData = async () => {
+    const fetchData = async (nextPage?: NextPage) => {
         try {
-            const data: { stream: MinorStream[]; page: NextPage } | null = await fetchChzzkData();
-            console.log('Chzzk API Response:', data);
+            return await fetchChzzk(nextPage);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
     };
 
-    fetchData();
+    onMount(() => {
+        if (checkNeedUpdate()) {
+            let allStream: MinorStream[] = [];
+            let nextPage: NextPage | undefined;
+
+            for (let i = 0; i < 5; i++) {
+                /*
+                const data: { stream: MinorStream[]; nextPage: NextPage } | null = await fetchData(nextPage);
+                allStream.push(...data.stream);
+                nextPage = data.nextPage;
+                */
+            }
+
+            localStorage.stream_data = JSON.stringify(allStream);
+            localStorage.hakko_updated_at = Date.now();
+        }
+    });
 </script>
 
 <h1>Welcome to SvelteKit</h1>

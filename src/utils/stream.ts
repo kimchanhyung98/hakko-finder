@@ -2,9 +2,9 @@ import type { Chzzk, MinorStream, NextPage } from '../types/chzzk';
 
 const originUrl = '/api/service/v1/lives?sortType=LATEST';
 
-export async function fetchChzzkData(
+export async function fetchChzzk(
     nextPage?: NextPage
-): Promise<{ stream: MinorStream[]; page: NextPage } | null> {
+): Promise<{ stream: MinorStream[]; nextPage: NextPage } | null> {
     try {
         let apiUrl = originUrl;
         if (nextPage) {
@@ -25,7 +25,7 @@ export async function fetchChzzkData(
 
         return {
             stream: MinorStreamData,
-            page: responseData.content.page.next
+            nextPage: responseData.content.page.next
         };
     } catch (error) {
         console.error('Error fetching stream data: ', error);
