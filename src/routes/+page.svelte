@@ -1,6 +1,6 @@
 <script lang="ts">
-    import {onMount} from 'svelte';
-    import {checkNeedUpdate, updateStreamData} from '../utils/storage';
+    import { onMount } from 'svelte';
+    import { checkNeedUpdate, updateStreamData } from '../utils/storage';
 
     onMount(() => {
         if (checkNeedUpdate()) updateStreamData();
@@ -34,6 +34,9 @@
     }
 </style>
 
-<div class="iframe-wrapper">
-    <iframe src="" title="chzzk" width="100%" height="1000px" allow="autoplay" allowfullscreen></iframe>
+
+<div id="container">
+    <div class="iframe-wrapper">
+        <iframe src="" title="chzzk" width="100%" height="1000px" allow="autoplay" allowfullscreen></iframe>
+    </div>
 </div>
