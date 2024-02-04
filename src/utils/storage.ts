@@ -1,5 +1,5 @@
-import type {MinorStream, NextPage} from "../types/chzzk";
-import {fetchChzzk} from "./stream";
+import type { MinorStream, NextPage } from '../types/chzzk';
+import { fetchChzzk } from './stream';
 
 export function checkNeedUpdate() {
     if (!localStorage.hakko_updated_at) {
@@ -17,7 +17,8 @@ export async function updateStreamData() {
     try {
         let nextPage: NextPage | undefined;
         for (let i = 0; i < 10; i++) {
-            const data: { stream: MinorStream[]; nextPage: NextPage } | null = await fetchChzzk(nextPage);
+            const data: { stream: MinorStream[]; nextPage: NextPage } | null =
+                await fetchChzzk(nextPage);
             if (data === null) continue;
 
             allStream.push(...data.stream);
@@ -31,4 +32,14 @@ export async function updateStreamData() {
 
     localStorage.stream_data = JSON.stringify(allStream);
     localStorage.hakko_updated_at = Date.now();
+}
+
+export function getStreamUrl() {
+    const savedStreamData = localStorage.getItem('stream_data');
+    if (!savedStreamData) return '';
+
+    const streamData = JSON.parse(savedStreamData);
+    const randomStream =
+        streamData[Math.floor(Math.random() * streamData.length)];
+    return `https://chzzk.naver.com/live/${randomStream.id}`;
 }

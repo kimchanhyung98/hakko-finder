@@ -1,123 +1,43 @@
 <script lang="ts">
-    import { onMount } from 'svelte';
+    import { onMount, getContext, setContext } from 'svelte';
     import { writable } from 'svelte/store';
-    import { checkNeedUpdate, updateStreamData } from '../utils/storage';
+    import { checkNeedUpdate, updateStreamData, getStreamUrl } from '../utils/storage';
 
-    let streamSrc = '';
+    const streamInfo = getContext('streamInfo');
 
     onMount(() => {
         if (checkNeedUpdate()) updateStreamData();
-        updateStreamIframe();
-    });
+        const url = getStreamUrl();
 
-    function updateStreamIframe() {
-        const streamData = JSON.parse(localStorage.getItem('stream_data'));
-    
-        if (streamData) {
-            const randomStream =
-                streamData[Math.floor(Math.random() * streamData.length)];
-            streamSrc = `https://chzzk.naver.com/live/${randomStream.id}`;
-        }
-    }
+        $streamInfo = {
+            url,
+        };
+    });
 </script>
 
-<div>
-    <header class="header">
-        <div class="logo">
-            <svg
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1vuhd1t"
-                focusable="false"
-                aria-hidden="true"
-                viewBox="0 0 24 24"
-                data-testid="LiveTvIcon"
-            >
-                <path
-                    d="M21 6h-7.59l3.29-3.29L16 2l-4 4-4-4-.71.71L10.59 6H3c-1.1 0-2 .89-2 2v12c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.11-.9-2-2-2m0 14H3V8h18zM9 10v8l7-4z"
-                ></path>
-            </svg>
-        </div>
-        <div class="button-wrap">
-            <button type="button" on:click={updateStreamIframe}>Refresh</button>
-        </div>
-    </header>
+<div id="container">
+    <div class="iframe-wrapper">
+        <iframe
+            src={$streamInfo?.url}
+            title="chzzk"
+            width="100%"
+            height="1000px"
+            allow="autoplay"
+            allowfullscreen
+        ></iframe>
+    </div>
 
-    <main class="main">
-        <div id="container">
-            <div class="iframe-wrapper">
-                <iframe
-                    src={streamSrc}
-                    title="chzzk"
-                    width="100%"
-                    height="1000px"
-                    allow="autoplay"
-                    allowfullscreen
-                ></iframe>
-            </div>
-
-            <div class="stream-info">
-                <h4 class="stream-title">Title</h4>
-                <a
-                    class="chanel-id"
-                    href="https://www.twitch.tv/"
-                    target="_blank">name</a
-                >
-            </div>
-        </div>
-    </main>
+    <div class="stream-info">
+        <h4 class="stream-title">Title</h4>
+        <a
+            class="chanel-id"
+            href="https://www.twitch.tv/"
+            target="_blank">name</a
+        >
+    </div>
 </div>
 
-<footer class="footer">
-    <div>Hello, I'm the footer.</div>
-
-    <div>깃헙 | 치치직</div>
-</footer>
-
 <style>
-    .header,
-    .footer {
-        width: 100%;
-        max-width: 770px;
-        min-width: 580px;
-        margin: 0 auto;
-    }
-
-    .header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 15px 0 5px;
-    }
-
-    .logo svg {
-        width: 40px;
-        height: 40px;
-        fill: #00ffa3e6;
-    }
-
-    .button-wrap button {
-        box-sizing: border-box;
-        height: 35px;
-        padding: 0 20px;
-        border: 0;
-        border-radius: 5px;
-        background: #00ffa3e6;
-        font-size: 14px;
-        font-weight: 700;
-        color: #141516;
-        cursor: pointer;
-    }
-
-    .main {
-        padding: 10px 0;
-    }
-
-    .footer {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 25px 0;
-    }
-
     .iframe-wrapper {
         overflow: hidden;
         position: relative;
