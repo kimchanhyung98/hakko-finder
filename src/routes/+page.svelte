@@ -1,16 +1,23 @@
 <script lang="ts">
     import { getContext, onMount } from 'svelte';
-    import { checkNeedUpdate, getStreamUrl, updateStreamData } from '../utils/storage';
+    import {
+        checkNeedUpdate,
+        getStreamUrl,
+        updateStreamData
+    } from '../utils/storage';
 
     const streamInfo = getContext('streamInfo');
 
     onMount(() => {
-        if (checkNeedUpdate()) updateStreamData();
-        const url = getStreamUrl();
+        if (checkNeedUpdate()) {
+            updateStreamData().then(() => {
+                const url = getStreamUrl();
 
-        $streamInfo = {
-            url
-        };
+                $streamInfo = {
+                    url
+                };
+            });
+        }
     });
 </script>
 
@@ -28,10 +35,8 @@
 
     <div class="stream-info">
         <h4 class="stream-title">Title</h4>
-        <a
-            class="chanel-id"
-            href="https://www.twitch.tv/"
-            target="_blank">name</a
+        <a class="chanel-id" href="https://www.twitch.tv/" target="_blank"
+            >name</a
         >
     </div>
 </div>

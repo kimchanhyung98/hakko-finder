@@ -30,8 +30,8 @@ export async function updateStreamData() {
         console.error('Error fetching data:', error);
     }
 
-    localStorage.stream_data = JSON.stringify(allStream);
-    localStorage.hakko_updated_at = Date.now();
+    localStorage.setItem('stream_data', JSON.stringify(allStream));
+    localStorage.setItem('hakko_updated_at', Date.now().toString());
 }
 
 export function getStreamUrl() {
