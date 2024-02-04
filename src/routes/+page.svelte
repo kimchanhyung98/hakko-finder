@@ -1,16 +1,60 @@
 <script lang="ts">
-    import { onMount } from 'svelte';
-    import { checkNeedUpdate, updateStreamData } from '../utils/storage';
+    import { getContext, onMount } from 'svelte';
+    import {
+        checkNeedUpdate,
+        getRandomStream,
+        updateStreamData
+    } from '../utils/storage';
+
+    const streamInfo = getContext('streamInfo');
 
     onMount(() => {
-        if (checkNeedUpdate()) updateStreamData();
-        const streamData = JSON.parse(localStorage.stream_data);
-
-        const randomStream = streamData[Math.floor(Math.random() * streamData.length)];
-        const iframe = document.querySelector('iframe') as HTMLIFrameElement;
-        iframe.src = `https://chzzk.naver.com/live/${randomStream.id}`;
+        if (checkNeedUpdate()) {
+            updateStreamData().then(() => {
+                $streamInfo = getRandomStream();
+            });
+        } else {
+            $streamInfo = getRandomStream();
+        }
     });
 </script>
+
+<div id="container">
+    <div class="iframe-wrapper">
+        <iframe
+            src={$streamInfo?.id
+                ? `https://chzzk.naver.com/live/${$streamInfo?.id}`
+                : ''}
+            title="chzzk"
+            width="100%"
+            height="1000px"
+            allow="autoplay"
+            allowfullscreen
+        ></iframe>
+    </div>
+
+    <div class="stream-info">
+        <h4 class="stream-title">
+            <a
+                href={$streamInfo?.id
+                    ? `https://chzzk.naver.com/live/${$streamInfo?.id}`
+                    : ''}
+                target="_blank"
+            >
+                {$streamInfo?.title || ''}
+            </a>
+        </h4>
+        <a
+            class="chanel-id"
+            href={$streamInfo?.id
+                ? `https://chzzk.naver.com/${$streamInfo?.id}`
+                : ''}
+            target="_blank"
+        >
+            {$streamInfo?.name || ''}
+        </a>
+    </div>
+</div>
 
 <style>
     .iframe-wrapper {
@@ -38,14 +82,17 @@
 
     .stream-info .stream-title {
         overflow: hidden;
-        margin: 0;
         font-size: 24px;
         font-weight: bold;
         line-height: normal;
-        color: #fff;
-        margin-bottom: 10px;
+        margin: 0 0 10px;
         text-overflow: ellipsis;
         white-space: nowrap;
+    }
+
+    .stream-info .stream-title a {
+        color: #fff;
+        text-decoration: none;
     }
 
     .stream-info .chanel-id {
@@ -54,21 +101,8 @@
         text-decoration: none;
     }
 
-    .stream-info .chanel-id:hover {
+    .stream-info .chanel-id:hover,
+    .stream-info .stream-title a:hover {
         text-decoration: underline;
     }
 </style>
-
-
-<div id="container">
-    <div class="iframe-wrapper">
-        <iframe src="" title="chzzk" width="100%" height="1000px" allow="autoplay" allowfullscreen></iframe>
-    </div>
-
-    <div class="stream-info">
-        <h4 class="stream-title">Title</h4>
-        <a class="chanel-id"
-           href="https://www.twitch.tv/" target="_blank"
-        >name</a>
-    </div>
-</div>
