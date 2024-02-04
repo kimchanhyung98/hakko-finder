@@ -1,7 +1,6 @@
 <script lang="ts">
-    import { onMount, getContext, setContext } from 'svelte';
-    import { writable } from 'svelte/store';
-    import { checkNeedUpdate, updateStreamData, getStreamUrl } from '../utils/storage';
+    import { getContext, onMount } from 'svelte';
+    import { checkNeedUpdate, getStreamUrl, updateStreamData } from '../utils/storage';
 
     const streamInfo = getContext('streamInfo');
 
@@ -10,7 +9,7 @@
         const url = getStreamUrl();
 
         $streamInfo = {
-            url,
+            url
         };
     });
 </script>
@@ -63,12 +62,11 @@
 
     .stream-info .stream-title {
         overflow: hidden;
-        margin: 0;
         font-size: 24px;
         font-weight: bold;
         line-height: normal;
         color: #fff;
-        margin-bottom: 10px;
+        margin: 0 0 10px;
         text-overflow: ellipsis;
         white-space: nowrap;
     }
