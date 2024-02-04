@@ -22,7 +22,7 @@ export async function updateStreamData() {
             if (data === null) continue;
 
             allStream.push(...data.stream);
-            if (allStream.length > 50) break;
+            if (allStream.length > 60) break;
 
             nextPage = data.nextPage;
         }

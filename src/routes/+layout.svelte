@@ -40,7 +40,10 @@
     </div>
 
     <footer class="footer">
-        <div>Hello, I'm the footer.</div>
+        <div>
+            <span class="copyright">© 2024 kimchanhyung98. All rights reserved.</span>
+            <span class="caution">The use of the API is not authorized by Naver(Chzzk). It is solely for non-commercial purposes.</span>
+        </div>
 
         <div>깃헙 | 치치직</div>
     </footer>
@@ -109,5 +112,17 @@
         justify-content: space-between;
         align-items: center;
         padding: 25px 0;
+    }
+
+    .footer .copyright {
+        display: block;
+        font-size: 12px;
+        color: #6e7681;
+    }
+
+    .footer .caution {
+        display: block;
+        font-size: 9px;
+        color: #484f58;
     }
 </style>
