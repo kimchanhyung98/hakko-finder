@@ -34,7 +34,16 @@
     </div>
 
     <div class="stream-info">
-        <h4 class="stream-title">{$streamInfo?.title || ''}</h4>
+        <h4 class="stream-title">
+            <a
+                href={$streamInfo?.id
+                    ? `https://chzzk.naver.com/live/${$streamInfo?.id}`
+                    : ''}
+                target="_blank"
+            >
+                {$streamInfo?.title || ''}
+            </a>
+        </h4>
         <a
             class="chanel-id"
             href={$streamInfo?.id
@@ -76,10 +85,14 @@
         font-size: 24px;
         font-weight: bold;
         line-height: normal;
-        color: #fff;
         margin: 0 0 10px;
         text-overflow: ellipsis;
         white-space: nowrap;
+    }
+
+    .stream-info .stream-title a {
+        color: #fff;
+        text-decoration: none;
     }
 
     .stream-info .chanel-id {
@@ -88,7 +101,8 @@
         text-decoration: none;
     }
 
-    .stream-info .chanel-id:hover {
+    .stream-info .chanel-id:hover,
+    .stream-info .stream-title a:hover {
         text-decoration: underline;
     }
 </style>
