@@ -2,7 +2,7 @@
     import { getContext, onMount } from 'svelte';
     import {
         checkNeedUpdate,
-        getStreamUrl,
+        getRandomStream,
         updateStreamData
     } from '../utils/storage';
 
@@ -11,12 +11,10 @@
     onMount(() => {
         if (checkNeedUpdate()) {
             updateStreamData().then(() => {
-                const url = getStreamUrl();
-
-                $streamInfo = {
-                    url
-                };
+                $streamInfo = getRandomStream();
             });
+        } else {
+            $streamInfo = getRandomStream();
         }
     });
 </script>
@@ -24,7 +22,9 @@
 <div id="container">
     <div class="iframe-wrapper">
         <iframe
-            src={$streamInfo?.url}
+            src={$streamInfo?.id
+                ? `https://chzzk.naver.com/live/${$streamInfo?.id}`
+                : ''}
             title="chzzk"
             width="100%"
             height="1000px"
@@ -34,10 +34,16 @@
     </div>
 
     <div class="stream-info">
-        <h4 class="stream-title">Title</h4>
-        <a class="chanel-id" href="https://www.twitch.tv/" target="_blank"
-            >name</a
+        <h4 class="stream-title">{$streamInfo?.title || ''}</h4>
+        <a
+            class="chanel-id"
+            href={$streamInfo?.id
+                ? `https://chzzk.naver.com/${$streamInfo?.id}`
+                : ''}
+            target="_blank"
         >
+            {$streamInfo?.name || ''}
+        </a>
     </div>
 </div>
 

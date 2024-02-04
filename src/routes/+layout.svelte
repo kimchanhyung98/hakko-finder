@@ -1,21 +1,13 @@
 <script lang="ts">
     import { setContext } from 'svelte';
     import { writable } from 'svelte/store';
-    import { getStreamUrl } from '../utils/storage';
+    import { getRandomStream } from '../utils/storage';
 
-    const streamInfo = writable({
-        url: ''
-    });
+    const streamInfo = writable({});
 
-    function updateStreamInfo() {
-        const url = getStreamUrl();
-
-        streamInfo.update((prev) => {
-            return {
-                ...prev,
-                url
-            };
-        });
+    function updateStream() {
+        const streamData = getRandomStream();
+        streamInfo.set(streamData);
     }
 
     setContext('streamInfo', streamInfo);
@@ -38,7 +30,7 @@
                 </svg>
             </div>
             <div class="button-wrap">
-                <button type="button" on:click={updateStreamInfo}>Refresh</button>
+                <button type="button" on:click={updateStream}>Refresh</button>
             </div>
         </header>
 

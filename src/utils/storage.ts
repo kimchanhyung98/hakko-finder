@@ -34,12 +34,11 @@ export async function updateStreamData() {
     localStorage.setItem('hakko_updated_at', Date.now().toString());
 }
 
-export function getStreamUrl() {
+export function getRandomStream() {
     const savedStreamData = localStorage.getItem('stream_data');
     if (!savedStreamData) return '';
 
     const streamData = JSON.parse(savedStreamData);
-    const randomStream =
-        streamData[Math.floor(Math.random() * streamData.length)];
-    return `https://chzzk.naver.com/live/${randomStream.id}`;
+    const randomIndex = Math.floor(Math.random() * streamData.length);
+    return streamData[randomIndex];
 }
