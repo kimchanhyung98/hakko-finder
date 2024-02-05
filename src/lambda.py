@@ -1,6 +1,5 @@
 import json
-import requests
-
+import urllib3
 
 def lambda_handler(event, context):
     try:
@@ -12,11 +11,19 @@ def lambda_handler(event, context):
         if user_count is not None and live_id is not None:
             api_url += f'&concurrentUserCount={user_count}&liveId={live_id}'
 
-        response = requests.get(api_url).json()
+        # Use built-in functions instead of installing requests module
+        http = urllib3.PoolManager()
+        request = http.request('GET', api_url).data.decode('utf-8')
+        response = json.loads(request)
+
     except Exception as e:
         response = {'error': str(e)}
 
     return {
         'statusCode': 200,
+        'headers': {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+        },
         'body': json.dumps(response)
     }
